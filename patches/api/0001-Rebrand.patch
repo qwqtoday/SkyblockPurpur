@@ -1,23 +1,23 @@
 From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-From: granny <granny@purpurmc.org>
-Date: Thu, 16 May 2024 20:37:05 -0700
+From: qwqtoday <lukas.leung@hotmail.com>
+Date: Wed, 14 Aug 2024 12:16:24 +0800
 Subject: [PATCH] Rebrand
 
 
 diff --git a/src/main/java/io/papermc/paper/ServerBuildInfo.java b/src/main/java/io/papermc/paper/ServerBuildInfo.java
-index 7107eabf02d9d9b69d97c978ba421ad52031ec3f..376da865092e49fc3f742883c912f80e4742576d 100644
+index 7107eabf02d9d9b69d97c978ba421ad52031ec3f..08de792cd0090305d0c2cf1271330655992d2125 100644
 --- a/src/main/java/io/papermc/paper/ServerBuildInfo.java
 +++ b/src/main/java/io/papermc/paper/ServerBuildInfo.java
 @@ -25,6 +25,13 @@ public interface ServerBuildInfo {
      Key BRAND_PURPUR_ID = Key.key("purpurmc", "purpur");
      // Purpur end
  
-+    // Tentacles start
++    // SkyblockPurpur start
 +    /**
-+     * The brand id for Tentacles.
++     * The brand id for SkyblockPurpur
 +     */
-+    Key BRAND_TENTACLES_ID = Key.key("tentaclesmc", "tentacles");
-+    // Tentacles end
++    Key BRAND_SKYBLOCKPURPUR_ID = Key.key("skyblockpurpurmc", "skyblockpurpur");
++    // SkyblockPurpur end
 +
      /**
       * Gets the {@code ServerBuildInfo}.
