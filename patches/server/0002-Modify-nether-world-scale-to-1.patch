@@ -1,0 +1,19 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: qwqtoday <lukas.leung@hotmail.com>
+Date: Wed, 14 Aug 2024 12:26:25 +0800
+Subject: [PATCH] Modify nether world scale to 1
+
+
+diff --git a/src/main/java/net/minecraft/world/level/block/NetherPortalBlock.java b/src/main/java/net/minecraft/world/level/block/NetherPortalBlock.java
+index 74d9a8a61365f1244471dbff8eb91dad3afaab51..0f1a7a23cd48d9bc313d4919adcea89fad3d4eb0 100644
+--- a/src/main/java/net/minecraft/world/level/block/NetherPortalBlock.java
++++ b/src/main/java/net/minecraft/world/level/block/NetherPortalBlock.java
+@@ -156,7 +156,7 @@ public class NetherPortalBlock extends Block implements Portal {
+             boolean flag = worldserver1.getTypeKey() == LevelStem.NETHER;
+             // CraftBukkit end
+             WorldBorder worldborder = worldserver1.getWorldBorder();
+-            double d0 = DimensionType.getTeleportationScale(world.dimensionType(), worldserver1.dimensionType());
++            double d0 = 1;
+             BlockPos blockposition1 = worldborder.clampToBounds(entity.getX() * d0, entity.getY(), entity.getZ() * d0);
+             // Paper start - Configurable portal search radius
+             int portalSearchRadius = worldserver1.paperConfig().environment.portalSearchRadius;
