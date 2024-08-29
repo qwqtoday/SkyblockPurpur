@@ -5,7 +5,7 @@ Subject: [PATCH] Relocate end portal destination
 
 
 diff --git a/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java b/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
-index 9c11a615fbfd4fcaff5df2a15d1b8578897ab2b4..904a0a70c39e6067663acff6ceeea9ea1ecb906a 100644
+index 9c11a615fbfd4fcaff5df2a15d1b8578897ab2b4..a87b985385c9fb5644bbabb8394f51560249ccbf 100644
 --- a/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
 @@ -100,7 +100,7 @@ public class EndPortalBlock extends BaseEntityBlock implements Portal {
@@ -13,7 +13,7 @@ index 9c11a615fbfd4fcaff5df2a15d1b8578897ab2b4..904a0a70c39e6067663acff6ceeea9ea
          } else {
              boolean flag = resourcekey == Level.END;
 -            BlockPos blockposition1 = flag ? ServerLevel.END_SPAWN_POINT : worldserver1.getSharedSpawnPos();
-+            BlockPos blockposition1 = new BlockPos(pos.getX(), pos.getY(), pos.getZ());
++            BlockPos blockposition1 = new BlockPos(((pos.getX() << 9) >> 9) + 256, pos.getY(), ((pos.getZ() << 9) >> 9) + 256);
              Vec3 vec3d = blockposition1.getBottomCenter();
              float f = entity.getYRot();
  
