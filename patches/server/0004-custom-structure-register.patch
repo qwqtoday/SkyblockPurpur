@@ -1,0 +1,88 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: qwqtoday <lukas.leung@hotmail.com>
+Date: Thu, 29 Aug 2024 14:09:32 +0800
+Subject: [PATCH] custom structure register
+
+
+diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
+index 488938c32a48437721a71d294c77468f00c035b9..c08bfb9e2ca7713e0069ed96862d874e56a52bae 100644
+--- a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
++++ b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
+@@ -4,6 +4,7 @@ import com.google.common.base.Suppliers;
+ import com.mojang.datafixers.util.Pair;
+ import com.mojang.serialization.Codec;
+ import com.mojang.serialization.MapCodec;
++import hk.catgirl.skyblockpurpur.CustomStructureRegister;
+ import it.unimi.dsi.fastutil.ints.IntArraySet;
+ import it.unimi.dsi.fastutil.longs.LongSet;
+ import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
+@@ -45,11 +46,7 @@ import net.minecraft.server.level.ServerLevel;
+ import net.minecraft.server.level.WorldGenRegion;
+ import net.minecraft.util.random.WeightedRandomList;
+ import net.minecraft.world.entity.MobCategory;
+-import net.minecraft.world.level.ChunkPos;
+-import net.minecraft.world.level.LevelHeightAccessor;
+-import net.minecraft.world.level.LevelReader;
+-import net.minecraft.world.level.StructureManager;
+-import net.minecraft.world.level.WorldGenLevel;
++import net.minecraft.world.level.*;
+ import net.minecraft.world.level.biome.Biome;
+ import net.minecraft.world.level.biome.BiomeGenerationSettings;
+ import net.minecraft.world.level.biome.BiomeManager;
+@@ -75,8 +72,10 @@ import net.minecraft.world.level.levelgen.structure.StructureStart;
+ import net.minecraft.world.level.levelgen.structure.placement.ConcentricRingsStructurePlacement;
+ import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
+ import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
++import net.minecraft.world.level.levelgen.structure.structures.NetherFortressStructure;
+ import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
+ import org.apache.commons.lang3.mutable.MutableBoolean;
++import org.bukkit.craftbukkit.generator.structure.CraftStructure;
+ 
+ public abstract class ChunkGenerator {
+ 
+@@ -529,6 +528,45 @@ public abstract class ChunkGenerator {
+         Map<Structure, LongSet> map = accessor.getAllStructuresAt(pos);
+         Iterator iterator = map.entrySet().iterator();
+ 
++        if (CustomStructureRegister.INSTANCE != null) {
++            int regionX = pos.getX() >> 9;
++            int regionZ = pos.getZ() >> 9;
++            int chunkX = pos.getX() >> 4;
++            int chunkZ = pos.getZ() >> 4;
++
++            String structureType = CustomStructureRegister.INSTANCE.getRegionStructure(regionX, regionZ);
++            if (structureType == null) {
++                LevelAccessor level = accessor.level;
++                if (level instanceof ServerLevel serverLevel) {
++                    structureType = CustomStructureRegister.INSTANCE.getRegionStructure(serverLevel.dimension().toString(), regionX, regionZ);
++                }
++            }
++
++            if (structureType != null) {
++                Structure structure = null;
++                if ("PILLAGER_OUTPOST".equals(structureType)) {
++                    structure = CraftStructure.bukkitToMinecraft(org.bukkit.generator.structure.Structure.PILLAGER_OUTPOST);
++                }
++                if ("OCEAN_MONUMENT".equals(structureType)) {
++                    structure = CraftStructure.bukkitToMinecraft(org.bukkit.generator.structure.Structure.MONUMENT);
++                }
++                if ("SWAMP_HUT".equals(structureType)) {
++                    structure = CraftStructure.bukkitToMinecraft(org.bukkit.generator.structure.Structure.SWAMP_HUT);
++                }
++                if ("FORTRESS".equals(structureType)) {
++                    return NetherFortressStructure.FORTRESS_ENEMIES;
++                }
++                if (structure != null) {
++                    Map<MobCategory, StructureSpawnOverride> spawnOverrides = structure.spawnOverrides();
++                    StructureSpawnOverride structureSpawnOverride = spawnOverrides.get(group);
++                    if (structureSpawnOverride != null) {
++                        return structureSpawnOverride.spawns();
++                    }
++                }
++            }
++        }
++
++
+         while (iterator.hasNext()) {
+             Entry<Structure, LongSet> entry = (Entry) iterator.next();
+             Structure structure = (Structure) entry.getKey();

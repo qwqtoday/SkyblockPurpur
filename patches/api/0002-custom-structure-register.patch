@@ -1,0 +1,16 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: qwqtoday <lukas.leung@hotmail.com>
+Date: Thu, 29 Aug 2024 14:08:57 +0800
+Subject: [PATCH] custom structure register
+
+
+diff --git a/src/main/java/hk/catgirl/skyblockpurpur/CustomStructureRegister.java b/src/main/java/hk/catgirl/skyblockpurpur/CustomStructureRegister.java
+new file mode 100644
+index 0000000000000000000000000000000000000000..2f658c3eea93e110de9c9e22b46c04e7b0f94ed4
+--- /dev/null
++++ b/src/main/java/hk/catgirl/skyblockpurpur/CustomStructureRegister.java
+@@ -0,0 +1,4 @@
++package hk.catgirl.skyblockpurpur;
++
++public interface CustomStructureRegister {
++}
