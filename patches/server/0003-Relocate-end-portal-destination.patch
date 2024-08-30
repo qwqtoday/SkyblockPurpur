@@ -5,11 +5,11 @@ Subject: [PATCH] Relocate end portal destination
 
 
 diff --git a/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java b/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
-index 9c11a615fbfd4fcaff5df2a15d1b8578897ab2b4..a87b985385c9fb5644bbabb8394f51560249ccbf 100644
+index 28d8c8a879badc97cd1168e1847e2fafdc40e4bd..0bec147c270cf9a3baf8cce31d3d66e4c79a0957 100644
 --- a/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
 +++ b/src/main/java/net/minecraft/world/level/block/EndPortalBlock.java
-@@ -100,7 +100,7 @@ public class EndPortalBlock extends BaseEntityBlock implements Portal {
-             return new DimensionTransition(PlayerTeleportEvent.TeleportCause.END_PORTAL); // CraftBukkit- always fire event in case plugins wish to change it
+@@ -101,7 +101,7 @@ public class EndPortalBlock extends BaseEntityBlock implements Portal {
+             return null; // Paper - keep previous behavior of not firing PlayerTeleportEvent if the target world doesn't exist
          } else {
              boolean flag = resourcekey == Level.END;
 -            BlockPos blockposition1 = flag ? ServerLevel.END_SPAWN_POINT : worldserver1.getSharedSpawnPos();
