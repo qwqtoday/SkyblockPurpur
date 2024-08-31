@@ -6,17 +6,19 @@ Subject: [PATCH] custom structure register
 
 diff --git a/src/main/java/hk/catgirl/skyblockpurpur/CustomStructureRegister.java b/src/main/java/hk/catgirl/skyblockpurpur/CustomStructureRegister.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..cb3b5bcaaf773e159b75a2be36ffa8737acbf5f8
+index 0000000000000000000000000000000000000000..746b70b44d2e23618dbd88af8382146d5c597f3e
 --- /dev/null
 +++ b/src/main/java/hk/catgirl/skyblockpurpur/CustomStructureRegister.java
-@@ -0,0 +1,10 @@
+@@ -0,0 +1,12 @@
 +package hk.catgirl.skyblockpurpur;
 +
 +import io.papermc.paper.math.BlockPosition;
++import org.jetbrains.annotations.NotNull;
++import org.jetbrains.annotations.Nullable;
 +
 +public interface CustomStructureRegister {
-+    public CustomStructureRegister INSTANCE = null;
++    public @Nullable CustomStructureRegister INSTANCE = null;
 +
-+    public String getRegionStructure(BlockPosition position);
-+    public String getRegionStructure(String dimension, BlockPosition position);
++    public @NotNull String getRegionStructure(@NotNull BlockPosition position);
++    public @NotNull String getRegionStructure(@NotNull String dimension, @NotNull BlockPosition position);
 +}
