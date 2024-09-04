@@ -5,20 +5,19 @@ Subject: [PATCH] custom structure register
 
 
 diff --git a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
-index 488938c32a48437721a71d294c77468f00c035b9..98495dbc0954d1e84456ce75877bbc50a7adc787 100644
+index 488938c32a48437721a71d294c77468f00c035b9..8217509948b5cc0efd15d664e8988db60d0145c5 100644
 --- a/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
 +++ b/src/main/java/net/minecraft/world/level/chunk/ChunkGenerator.java
-@@ -4,6 +4,9 @@ import com.google.common.base.Suppliers;
+@@ -4,6 +4,8 @@ import com.google.common.base.Suppliers;
  import com.mojang.datafixers.util.Pair;
  import com.mojang.serialization.Codec;
  import com.mojang.serialization.MapCodec;
-+import hk.catgirl.skyblockpurpur.CustomStructureRegister;
++import hk.catgirl.skyblockpurpur.events.MobSpawnStructureEvent;
 +import io.papermc.paper.math.BlockPosition;
-+import io.papermc.paper.math.Position;
  import it.unimi.dsi.fastutil.ints.IntArraySet;
  import it.unimi.dsi.fastutil.longs.LongSet;
  import it.unimi.dsi.fastutil.objects.Object2ObjectArrayMap;
-@@ -45,11 +48,7 @@ import net.minecraft.server.level.ServerLevel;
+@@ -45,11 +47,7 @@ import net.minecraft.server.level.ServerLevel;
  import net.minecraft.server.level.WorldGenRegion;
  import net.minecraft.util.random.WeightedRandomList;
  import net.minecraft.world.entity.MobCategory;
@@ -31,29 +30,35 @@ index 488938c32a48437721a71d294c77468f00c035b9..98495dbc0954d1e84456ce75877bbc50
  import net.minecraft.world.level.biome.Biome;
  import net.minecraft.world.level.biome.BiomeGenerationSettings;
  import net.minecraft.world.level.biome.BiomeManager;
-@@ -75,8 +74,11 @@ import net.minecraft.world.level.levelgen.structure.StructureStart;
+@@ -75,8 +73,11 @@ import net.minecraft.world.level.levelgen.structure.StructureStart;
  import net.minecraft.world.level.levelgen.structure.placement.ConcentricRingsStructurePlacement;
  import net.minecraft.world.level.levelgen.structure.placement.RandomSpreadStructurePlacement;
  import net.minecraft.world.level.levelgen.structure.placement.StructurePlacement;
 +import net.minecraft.world.level.levelgen.structure.structures.NetherFortressStructure;
  import net.minecraft.world.level.levelgen.structure.templatesystem.StructureTemplateManager;
  import org.apache.commons.lang3.mutable.MutableBoolean;
-+import org.bukkit.Location;
++import org.bukkit.Bukkit;
 +import org.bukkit.craftbukkit.generator.structure.CraftStructure;
  
  public abstract class ChunkGenerator {
  
-@@ -529,6 +531,40 @@ public abstract class ChunkGenerator {
+@@ -529,6 +530,46 @@ public abstract class ChunkGenerator {
          Map<Structure, LongSet> map = accessor.getAllStructuresAt(pos);
          Iterator iterator = map.entrySet().iterator();
  
-+        if (CustomStructureRegister.INSTANCE != null) {
-+            String structureType = CustomStructureRegister.INSTANCE.getRegionStructure((BlockPosition) pos);
-+            if (structureType == null) {
-+                LevelAccessor level = accessor.level;
-+                if (level instanceof ServerLevel serverLevel) {
-+                    structureType = CustomStructureRegister.INSTANCE.getRegionStructure(serverLevel.dimension().toString(), (BlockPosition) pos);
-+                }
++
++
++        {
++            String structureType;
++            LevelAccessor level = accessor.level;
++            if (level instanceof ServerLevel serverLevel) {
++                MobSpawnStructureEvent event = new MobSpawnStructureEvent((BlockPosition) pos, serverLevel.dimension().toString());
++                Bukkit.getPluginManager().callEvent(event);
++                structureType = event.getStructure();
++            } else {
++                MobSpawnStructureEvent event = new MobSpawnStructureEvent((BlockPosition) pos);
++                Bukkit.getPluginManager().callEvent(event);
++                structureType = event.getStructure();
 +            }
 +
 +            if (structureType != null) {
