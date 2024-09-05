@@ -102,7 +102,7 @@ tasks.generateDevelopmentBundle {
 allprojects {
     publishing {
         repositories {
-            maven("https://repo.purpurmc.org/snapshots") {
+            maven("https://maven.catgirl.hk/snapshots") {
                 name = "skyblockpurpur"
                 credentials(PasswordCredentials::class)
             }
