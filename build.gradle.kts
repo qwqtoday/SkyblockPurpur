@@ -91,7 +91,7 @@ paperweight {
 }
 
 tasks.generateDevelopmentBundle {
-    apiCoordinates = "today.qwq.skyblockpurpur:skyblockpurpur-api"
+    apiCoordinates = "hk.catgirl.skyblockpurpur:skyblockpurpur-api"
     libraryRepositories.addAll(
         "https://repo.maven.apache.org/maven2/",
         paperMavenPublicUrl,
