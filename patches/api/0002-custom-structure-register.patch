@@ -6,13 +6,13 @@ Subject: [PATCH] custom structure register
 
 diff --git a/src/main/java/hk/catgirl/skyblockpurpur/events/MobSpawnStructureEvent.java b/src/main/java/hk/catgirl/skyblockpurpur/events/MobSpawnStructureEvent.java
 new file mode 100644
-index 0000000000000000000000000000000000000000..1b7c2240dba3c471fad43cc609080fbc6af3b522
+index 0000000000000000000000000000000000000000..bf20a6e08be65a3a61af50789421ba99eda2eccd
 --- /dev/null
 +++ b/src/main/java/hk/catgirl/skyblockpurpur/events/MobSpawnStructureEvent.java
-@@ -0,0 +1,51 @@
+@@ -0,0 +1,40 @@
 +package hk.catgirl.skyblockpurpur.events;
 +
-+import io.papermc.paper.math.BlockPosition;
++import org.bukkit.Location;
 +import org.bukkit.event.Event;
 +import org.bukkit.event.HandlerList;
 +import org.jetbrains.annotations.NotNull;
@@ -20,26 +20,15 @@ index 0000000000000000000000000000000000000000..1b7c2240dba3c471fad43cc609080fbc
 +
 +public class MobSpawnStructureEvent extends Event {
 +    private static final HandlerList handlers = new HandlerList();
-+    private final @NotNull BlockPosition position;
-+    private final @Nullable String dimension;
++    private final @NotNull Location position;
 +
 +    public @Nullable String structure = null;
 +
-+    public MobSpawnStructureEvent(@NotNull BlockPosition position) {
++    public MobSpawnStructureEvent(@NotNull Location position) {
 +        this.position = position;
-+        this.dimension = null;
 +    }
 +
-+    public MobSpawnStructureEvent(@NotNull BlockPosition position, @Nullable String dimension) {
-+        this.position = position;
-+        this.dimension = dimension;
-+    }
-+
-+    public @Nullable String getDimension() {
-+        return dimension;
-+    }
-+
-+    public @NotNull BlockPosition getPosition() {
++    public @NotNull Location getPosition() {
 +        return position;
 +    }
 +
