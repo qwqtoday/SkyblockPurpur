@@ -17,6 +17,7 @@ if [ "$current" != "$upstream" ]; then
 
     git add .
     ./scripts/upstreamCommit.sh "$current"
+    touch .updated-upstream
 fi
 
 ) || exit 1
