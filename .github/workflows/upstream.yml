@@ -18,9 +18,11 @@ jobs:
       - name: Update upstream
         run: |
           ./scripts/updateUpstream.sh
-      - name: Build
+      - if: ${{ hashFiles('.updated-upstream') != '' }}
+        name: Build
         run: ./gradlew createMojmapPaperclipJar --stacktrace
-      - name: Upload Artifact
+      - if: ${{ hashFiles('.updated-upstream') != '' }}
+        name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
           name: SkyblockPurpur-SNAPSHOT
